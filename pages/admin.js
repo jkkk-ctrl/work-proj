@@ -32,6 +32,9 @@ function formatLastModified(iso) {
 }
 
 export default function AdminPage() {
+  const ADMIN_PASSWORD = 'plktest'; // 여기 원하는 걸로 바꾸세요
+  const [authed, setAuthed] = useState(false);
+  const [pwInput, setPwInput] = useState('');
   const [data, setData] = useState(null);
   const [values, setValues] = useState({});
   const [label, setLabel] = useState(autoLabel());
@@ -89,6 +92,23 @@ export default function AdminPage() {
   }
 
   const regions = data?.regions || {};
+
+  if (!authed) {
+    return (
+      <div style={{ maxWidth: 320, margin: '100px auto', textAlign: 'center' }}>
+        <p>관리자 비밀번호를 입력하세요</p>
+        <input
+          type="password"
+          value={pwInput}
+          onChange={e => setPwInput(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter' && pwInput === ADMIN_PASSWORD) setAuthed(true);
+          }}
+          style={{ padding: 8, fontSize: 16 }}
+        />
+      </div>
+    );
+  }
 
   return (
     <>

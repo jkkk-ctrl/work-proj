@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { geoMercator, geoPath } from 'd3-geo';
+import koreaProvinces from '../data/korea-provinces.json';
 
 /* ═══════════════════════════════════════════════════════
    캔버스 — viewBox 1단위 = 실제 1px (max-width:1170px 기준)
@@ -523,11 +524,7 @@ export default function MapPage({ initialData, geoData, islets }) {
 }
 
 export async function getServerSideProps() {
-  const fs = (await import('fs')).default;
-  const path = (await import('path')).default;
-
-  const geoFile = path.join(process.cwd(), 'public', 'korea-provinces.json');
-  const raw = JSON.parse(fs.readFileSync(geoFile, 'utf-8'));
+  const raw = koreaProvinces;
 
   /* 해안선·섬 단순화 + 울릉도·독도 분리 (원본 json은 건드리지 않음) */
   const features = [];

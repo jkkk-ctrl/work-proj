@@ -1,0 +1,30 @@
+{
+  "updated_label": "2026년 7월 기준",
+  "regions": {
+    "capital_region": {
+      "name": "수도권",
+      "value": 74
+    },
+    "gangwon_region": {
+      "name": "강원/춘천권",
+      "value": 25
+    },
+    "chungcheong_region": {
+      "name": "충청권",
+      "value": 38
+    },
+    "honam_region": {
+      "name": "호남권",
+      "value": 45
+    },
+    "yeongnam_region": {
+      "name": "영남권",
+      "value": 72
+    },
+    "jeju_region": {
+      "name": "제주",
+      "value": 18
+    }
+  },
+  "last_modified": "2026-07-27T06:28:05.939Z"
+}

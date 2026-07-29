@@ -1,0 +1,286 @@
+/* Pretendard — 가변(Variable) 다이나믹 서브셋.
+   가변이라 fontWeight 700/800 이 또렷하게 나오고, 페이지에 쓰인 글자만
+   내려받아 한글 웹폰트치고 가볍다.
+   @import 는 반드시 다른 규칙보다 위에 있어야 한다. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+               system-ui, Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  background: #fff;
+  color: #1a2a4a;
+}
+
+/* ─── Public page ─── */
+.map-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px 16px;
+  background: #fff;
+}
+
+/* ─── 지도 전체 크기 ───
+   index.js 의 viewBox 는 1170×1800.
+   max-width 450px → 실제 450×692px 로 그려진다 (한 화면에 다 들어옴).
+   축소 배율 = 450/1170 = 0.385  → index.js 의 숫자에 이걸 곱하면 실제 px */
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.korea-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.province-path {
+  stroke: #fff;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+/* Badge hover animation
+   원의 로컬 좌표 원점(0,0)이 곧 배지 중심이므로 transform-origin: 0 0 이면
+   정확히 중심 기준으로 확대된다. (fill-box보다 구형 사파리 호환성이 좋음) */
+.badge-group {
+  transform-origin: 0 0;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+.badge-group:hover {
+  transform: scale(1.2);
+}
+
+/* 이 글씨는 SVG 밖이라 viewBox 축소의 영향을 받지 않는다 (실제 px 값).
+   top 은 index.js 가 제주도 세로 중심에 맞춰 % 로 넣어준다. */
+.updated-label {
+  position: absolute;
+  right: 4px;
+  transform: translateY(-50%);
+  text-align: right;
+  font-size: 13px;
+  color: #4a6080;
+  line-height: 1.5;
+}
+.updated-label strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a2a4a;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ─── Admin page ─── */
+.admin-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.admin-page h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1a2a4a;
+}
+
+.admin-desc {
+  font-size: 14px;
+  color: #6080a0;
+  margin-bottom: 32px;
+}
+
+.admin-card {
+  background: #f6f8fc;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.admin-card h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6080a0;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label-row label {
+  font-size: 14px;
+  color: #1a2a4a;
+  white-space: nowrap;
+}
+
+.label-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid #d0daea;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #1a2a4a;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.label-row input:focus { border-color: #4a7fcb; }
+
+.region-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.region-table th {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8090a8;
+  text-align: left;
+  padding: 0 0 8px;
+  border-bottom: 1px solid #d8e2f0;
+}
+
+.region-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid #e8eef8;
+}
+
+.region-table tr:last-child td { border-bottom: none; }
+
+.region-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.region-name-cell {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.region-table input[type="number"] {
+  width: 90px;
+  padding: 6px 10px;
+  border: 1.5px solid #d0daea;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a2a4a;
+  background: #fff;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.region-table input[type="number"]:focus { border-color: #4a7fcb; }
+
+.save-btn {
+  margin-top: 24px;
+  width: 100%;
+  padding: 14px;
+  background: #1E3D7B;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.save-btn:hover { background: #163368; }
+.save-btn:active { transform: scale(0.98); }
+.save-btn:disabled { background: #a0b0c8; cursor: not-allowed; }
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2a4a;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 999;
+}
+
+.toast.show { opacity: 1; }
+
+.admin-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #c0ccd8;
+  text-decoration: none;
+}
+.admin-link:hover { color: #8090a8; }
+
+/* ─── Inline-edit date label ─── */
+.date-last-modified {
+  font-size: 12px;
+  color: #a0b0c4;
+  margin-bottom: 12px;
+}
+
+.date-inline-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a2a4a;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: text;
+  border-bottom: 1.5px dashed #c8d4e4;
+  line-height: 1.4;
+  transition: border-color 0.15s;
+}
+
+.date-inline-text:hover { border-color: #4a7fcb; }
+
+.date-inline-text .edit-hint {
+  font-size: 11px;
+  font-weight: 500;
+  color: #a0b0c8;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.date-inline-text:hover .edit-hint { opacity: 1; }
+
+.date-inline-input {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a2a4a;
+  background: #fff;
+  border: 1.5px solid #4a7fcb;
+  border-radius: 8px;
+  padding: 6px 10px;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}

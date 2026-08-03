@@ -166,29 +166,33 @@ export default function AdminPage() {
 
         {/* ② 업데이트 일자 */}
         <div className="admin-card">
-          <h2>업데이트 일자</h2>
-          {data?.last_modified && (
-            <div className="date-last-modified">
-              {formatLastModified(data.last_modified)}
-            </div>
-          )}
+          <div className="card-title-row">
+            <h2>업데이트 일자</h2>
+            {data?.last_modified && (
+              <div className="date-last-modified">
+                {formatLastModified(data.last_modified)}
+              </div>
+            )}
+          </div>
 
-          {editingLabel ? (
-            <input
-              ref={labelInputRef}
-              className="date-inline-input"
-              value={label}
-              onChange={e => setLabel(e.target.value)}
-              onBlur={commitLabel}
-              onKeyDown={e => { if (e.key === 'Enter') commitLabel(); }}
-              placeholder="예: 2026년 7월 기준"
-            />
-          ) : (
-            <button className="date-inline-text" onClick={startEditLabel}>
-              {label}
-              <span className="edit-hint">편집</span>
-            </button>
-          )}
+          <div className="date-control">
+            {editingLabel ? (
+              <input
+                ref={labelInputRef}
+                className="date-inline-input"
+                value={label}
+                onChange={e => setLabel(e.target.value)}
+                onBlur={commitLabel}
+                onKeyDown={e => { if (e.key === 'Enter') commitLabel(); }}
+                placeholder="예: 2026년 7월 기준"
+              />
+            ) : (
+              <button className="date-inline-text" onClick={startEditLabel}>
+                {label}
+                <span className="edit-hint">편집</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <button className="save-btn" onClick={handleSave} disabled={saving || !data}>

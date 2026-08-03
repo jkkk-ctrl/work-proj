@@ -95,14 +95,14 @@ body {
 .admin-desc {
   font-size: 14px;
   color: #6080a0;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .admin-card {
   background: #f6f8fc;
   border-radius: 12px;
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .admin-card h2 {
@@ -191,7 +191,7 @@ body {
 .region-table input[type="number"]:focus { border-color: #4a7fcb; }
 
 .save-btn {
-  margin-top: 24px;
+  margin-top: 0;
   width: 100%;
   padding: 14px;
   background: #1E3D7B;
@@ -210,9 +210,9 @@ body {
 
 .toast {
   position: fixed;
-  bottom: 32px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: #1a2a4a;
   color: #fff;
   padding: 12px 24px;
@@ -238,10 +238,22 @@ body {
 .admin-link:hover { color: #8090a8; }
 
 /* ─── Inline-edit date label ─── */
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title-row h2 { margin-bottom: 0; }
+
 .date-last-modified {
   font-size: 12px;
   color: #a0b0c4;
-  margin-bottom: 12px;
+}
+
+.date-control {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .date-inline-text {
@@ -282,5 +294,6 @@ body {
   padding: 6px 10px;
   outline: none;
   width: 100%;
+  text-align: right;
   font-family: inherit;
 }

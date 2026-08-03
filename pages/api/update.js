@@ -6,14 +6,19 @@ export default async function handler(req, res) {
   const { regions, updated_label } = req.body;
   if (!regions) return res.status(400).json({ error: 'regions required' });
 
-  const current = await readData();
+  try {
+    const current = await readData();
 
-  Object.entries(regions).forEach(([id, { value }]) => {
-    if (current.regions[id]) current.regions[id].value = Number(value);
-  });
+    Object.entries(regions).forEach(([id, { value }]) => {
+      if (current.regions[id]) current.regions[id].value = Number(value);
+    });
 
-  if (updated_label !== undefined) current.updated_label = updated_label;
+    if (updated_label !== undefined) current.updated_label = updated_label;
 
-  await writeData(current);
-  res.json({ success: true });
+    await writeData(current);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[update] writeData failed:', err);
+    res.status(500).json({ error: err.message || String(err) });
+  }
 }

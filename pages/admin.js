@@ -81,7 +81,8 @@ export default function AdminPage() {
       });
 
       if (!res.ok) {
-        alert('저장 실패: 서버 오류가 발생했습니다.');
+        const body = await res.json().catch(() => ({}));
+        alert(`저장 실패: ${body.error || '서버 오류'}`);
         return;
       }
 

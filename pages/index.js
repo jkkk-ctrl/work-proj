@@ -549,7 +549,7 @@ export async function getServerSideProps() {
   let initialData = null;
   try {
     const { readData } = await import('../lib/db');
-    initialData = readData();
+    initialData = await readData();
   } catch {}
 
   return {

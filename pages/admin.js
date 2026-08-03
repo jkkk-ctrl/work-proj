@@ -74,11 +74,16 @@ export default function AdminPage() {
       const regions = {};
       REGION_ORDER.forEach(id => { regions[id] = { value: Number(values[id] ?? 0) }; });
 
-      await fetch('/api/update', {
+      const res = await fetch('/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ regions, updated_label: label }),
       });
+
+      if (!res.ok) {
+        alert('저장 실패: 서버 오류가 발생했습니다.');
+        return;
+      }
 
       const refreshed = await fetch('/api/regions').then(r => r.json());
       setData(refreshed);
@@ -86,6 +91,8 @@ export default function AdminPage() {
       clearTimeout(toastTimer.current);
       setToast(true);
       toastTimer.current = setTimeout(() => setToast(false), 2500);
+    } catch {
+      alert('저장 실패: 네트워크 오류가 발생했습니다.');
     } finally {
       setSaving(false);
     }

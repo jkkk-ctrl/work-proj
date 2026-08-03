@@ -3,7 +3,7 @@
   "regions": {
     "capital_region": {
       "name": "수도권",
-      "value": 73
+      "value": 72
     },
     "gangwon_region": {
       "name": "강원/춘천권",
@@ -26,5 +26,5 @@
       "value": 18
     }
   },
-  "last_modified": "2026-08-03T02:38:03.540Z"
+  "last_modified": "2026-08-03T02:49:54.099Z"
 }
